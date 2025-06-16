@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const apartmentData = {
   '1': {
@@ -36,16 +37,23 @@ export default function apartmentDetailPage({ params }) {
   if (!apartmentInfo) return <div className="p-6 text-red-500">apartment not found</div>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-orange-100 p-6">
+      <AnimatePresence mode="wait">
+          <motion.div
+            // key={pathname}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+          >
+        <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-orange-100 p-6">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* <Breadcrumb /> */}
         <div className="flex justify-between items-center">
           <h2 className="text-3xl font-bold text-orange-800">
             {decodeURIComponent(tower)} / {decodeURIComponent(floor)} / {apartmentInfo.name}
           </h2>
           <Button onClick={() => router.back()} variant="secondary">Back</Button>
         </div>
-        <div className=" mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+        <div className=" ">
           <img
             src={apartmentInfo.img}
             alt={apartmentInfo.name}
@@ -60,5 +68,8 @@ export default function apartmentDetailPage({ params }) {
         </div>
       </div>
     </div>
+          </motion.div>
+      </AnimatePresence>
+   
   );
 }

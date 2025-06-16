@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const floors = Array.from({ length: 15 }, (_, i) => `Floor ${15 - i}`);
 
@@ -10,9 +11,16 @@ export default function TowerPage({ params }) {
   const router = useRouter();
   const { tower } = React.use(params);
 
-  console.log('tower', tower)
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-pink-200 p-6 flex flex-col items-center justify-center space-y-6">
+     <AnimatePresence mode="wait">
+          <motion.div
+            // key={pathname}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4 }}
+          >
+            <div className="min-h-screen bg-gradient-to-br from-purple-100 to-pink-200 p-6 flex flex-col items-center justify-center space-y-6">
       <div className="w-full max-w-4xl">
        
         <div className="flex justify-between items-center mb-4">
@@ -32,5 +40,8 @@ export default function TowerPage({ params }) {
         </div>
       </div>
     </div>
+          </motion.div>
+        </AnimatePresence>
+   
   );
 }

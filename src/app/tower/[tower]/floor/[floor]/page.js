@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const apartments = [
   {
@@ -36,10 +37,17 @@ export default function FloorPage({ params }) {
    const router = useRouter();
   const { tower, floor } = React.use(params);
  
-
-  console.log('tower floor', decodeURIComponent(tower), floor);
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-yellow-100 p-6 flex flex-col items-center justify-center space-y-6">
+    <AnimatePresence mode="wait">
+          <motion.div
+            // key={pathname}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+          >
+
+ <div className="min-h-screen bg-gradient-to-br from-pink-100 to-yellow-100 p-6 flex flex-col items-center justify-center space-y-6">
       <div className="w-full max-w-6xl">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-3xl font-bold text-pink-800">{decodeURIComponent(tower)} - {decodeURIComponent(floor)} - Choose an apartment</h2>
@@ -72,5 +80,8 @@ export default function FloorPage({ params }) {
         </div>
       </div>
     </div>
+    </motion.div>
+      </AnimatePresence>
+   
   );
 }
